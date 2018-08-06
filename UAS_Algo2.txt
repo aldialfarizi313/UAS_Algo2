@@ -1,0 +1,110 @@
+program Nilai_huruf_mutu;
+uses crt;
+type
+KHS = record
+
+nm,ag:string;
+absen,quiz,uts,uas,tugas,nilai,kalkulasi:real;
+hm:char;
+end;
+TKHS=array [1..100] of KHS;
+function menu:char;
+begin
+textColor(yellow);
+    writeln('NILAI MATAKULIAH');
+    writeln('*****************');
+    writeln('* 1.input data *');
+    writeln('* 2.Output Data *');
+    writeln('*****************');
+    writeln('* 0.Keluar      *');
+    writeln('*****************');
+    write('Pilih menu : ');readln(menu);
+end;
+
+procedure input(idx:integer;var data:TKHS);
+
+begin
+writeln('data ke-',idx);
+writeln('_________________');
+write('Nama  : ');readln(data[idx].nm);
+writeln('_________________');
+write('Absen : ');readln(data[idx].absen);
+write('Tugas : ');readln(data[idx].tugas);
+write('Quiz  : ');readln(data[idx].quiz);
+write('UTS   : ');readln(data[idx].uts);
+write('UAS   : ');readln(data[idx].uas);
+
+begin
+data[idx].nilai:=0.2*(data[idx].absen+data[idx].tugas+data[idx].quiz+data[idx].uts+data[idx].uas);
+end;
+end;
+
+procedure proses(var data:KHS);
+begin
+if data.nilai>=85 then
+data.hm:='a'
+else if data.nilai>=70 then
+data.hm:='b'
+else if data.nilai>=55 then
+data.hm:='c'
+else if data.nilai>=40 then
+data.hm:='d'
+else if data.nilai>=0 then
+data.hm:='e';
+end;
+
+procedure output(jml:integer;data:TKHS);
+var
+i:integer;
+begin
+if jml=0 then
+begin
+writeln('belum ada data masuk!');
+readkey;
+end
+else
+for i:=1 to jml do
+begin
+
+writeln;
+writeln;
+writeln('Nama        : ',data[i].nm);
+writeln('_______________________');
+writeln('total nilai : ',data[i].nilai);
+writeln('huruf mutu  : ',data[i].hm);
+writeln('_______________________');
+writeln;
+write('0. untuk kembali : ');
+end;
+end;
+var
+no_menu,terus:char;
+jml_MHS:integer;
+data:TKHS;
+begin
+jml_MHS:=0;
+repeat
+clrscr;
+no_menu:=menu;
+case no_menu of
+'1' : begin
+clrscr;
+textColor(yellow);
+repeat
+input(jml_MHS+1,data);
+proses(data[jml_MHS+1]);
+jml_MHS:=jml_MHS+1;
+writeln('__________________');
+write('masukan data lagi y/n :');readln(terus);
+writeln;
+writeln;
+until(terus='n')
+end;
+'2' : begin
+textColor(yellow);
+clrscr;
+output(jml_MHS, data);readln;
+end;
+end;
+until(no_menu='0');
+end.
